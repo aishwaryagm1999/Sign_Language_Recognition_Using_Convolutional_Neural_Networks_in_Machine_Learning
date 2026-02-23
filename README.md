@@ -107,7 +107,7 @@ Training Steps: 10,000 epochs
 
 Final Training Loss: 0.086
 
-Hardware Used:
+Hardware Used
 
 Intel i5 Processor
 
@@ -219,7 +219,7 @@ Confidence score
 
 📚 Research Publication
 
-This work was presented at:
+Presented at:
 
 IACIT 2021 Conference
 
@@ -227,7 +227,8 @@ Published in:
 
 International Journal of Advanced Research in Computer Science (IJARCS)
 
-Sign Language Recognition using Convolutional Neural Networks in Machine Learning”, IJARCS, vol. 12, pp. 16–20, Aug. 2021, doi: 10.26483/ijarcs.v12i0.6713
+“Sign Language Recognition using Convolutional Neural Networks in Machine Learning”, IJARCS, Vol. 12, pp. 16–20, Aug. 2021.
+DOI: 10.26483/ijarcs.v12i0.6713
 
 🎓 Skills Demonstrated
 
