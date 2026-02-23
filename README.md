@@ -9,7 +9,7 @@
 
 The system leverages the **TensorFlow Object Detection API** and **SSD MobileNet v2** to perform bounding box localization and classification of hand gestures from live webcam input.
 
-ASLVizNet was developed as a research-driven project and presented at the **IACIT 2021 Conference**, with publication in **IJARCS (International Journal of Advanced Research in Computer Science)**.
+ASLVizNet was developed as a research-driven project and presented at the **IACIT 2021 Conference**, with publication in the **International Journal of Advanced Research in Computer Science (IJARCS)**.
 
 ---
 
@@ -67,26 +67,92 @@ Real-Time Detection with Bounding Box + Confidence Score
 
 ---
 
-## 📂 Dataset Pipeline
+## 📂 Dataset
 
-### 1️⃣ Data Collection
+The complete dataset (gesture images + annotations) is available here:
 
-- Custom ASL gesture dataset created  
-- Static alphabets (A–Z)  
-- Numbers (0–9)  
-- Images captured using OpenCV  
+🔗 **Google Drive Dataset Link**  
+https://drive.google.com/drive/folders/1_vZt3Jn-JPQU5viHmGyGMdwQshuFqZOT?usp=sharing  
 
-### 2️⃣ Annotation
+The dataset contains:
 
-- Tool: LabelImg  
-- Generated XML annotation files  
-- Bounding box coordinates labeled per image  
+- ASL Alphabets (A–Z)
+- Numbers (0–9)
+- XML annotation files (LabelImg format)
+- Images used for training
 
-### 3️⃣ TFRecord Generation
+⚠️ Note: Dataset is hosted externally due to GitHub size limitations.
 
-Used custom script:
+---
 
-`generate_tfrecord.py`
+## 📁 Project Structure
+
+```
+ASLVizNet/
+│
+├── annotations/              # XML files from LabelImg
+├── images/                   # Gesture images
+├── training/                 # Model checkpoints
+├── exported-model/           # Final exported model
+│
+├── ImageCapture.ipynb        # Dataset capture notebook
+├── MainCode.ipynb            # Real-time detection notebook
+├── generate_tfrecord.py      # XML → TFRecord converter
+├── label_map.pbtxt           # Class label definitions
+├── pipeline.config           # Training configuration
+└── README.md
+```
+
+---
+
+## 🛠️ Requirements
+
+### 🔹 Tested Environment
+
+- Python 3.7  
+- TensorFlow 2.4.1  
+- CUDA (Optional for GPU acceleration)
+
+### 🔹 Required Libraries
+
+```bash
+pip install tensorflow==2.4.1
+pip install opencv-python
+pip install pandas numpy pillow lxml
+```
+
+---
+
+## 🔧 Install TensorFlow Object Detection API
+
+```bash
+git clone https://github.com/tensorflow/models.git
+cd models/research
+protoc object_detection/protos/*.proto --python_out=.
+cp object_detection/packages/tf2/setup.py .
+pip install .
+```
+
+---
+
+## 📂 Dataset Preparation
+
+1. Download dataset from Google Drive.
+2. Place images inside `/images`
+3. Place XML files inside `/annotations`
+4. Ensure `label_map.pbtxt` contains correct class mappings.
+
+---
+
+## 🔁 Generate TFRecords
+
+```bash
+python generate_tfrecord.py \
+-x annotations \
+-l label_map.pbtxt \
+-o train.record \
+-i images
+```
 
 This script:
 
@@ -99,28 +165,46 @@ This script:
 
 ## 🔬 Model Training
 
+```bash
+python model_main_tf2.py \
+--pipeline_config_path=training/pipeline.config \
+--model_dir=training/ \
+--alsologtostderr
+```
+
 ### Training Configuration
 
-- **Framework:** TensorFlow  
-- **Training Steps:** 10,000 epochs  
-- **Final Training Loss:** 0.086  
+- Training Steps: 10,000 epochs  
+- Final Training Loss: 0.086  
+- Real-Time Accuracy: 96–99%  
 
-### Hardware Used
+---
 
-- Intel i5 Processor  
-- 8GB RAM  
-- GTX 1030 (Optional GPU Acceleration)  
-- Webcam for live testing  
+## 📦 Export Trained Model
 
-### Training Process
+```bash
+python exporter_main_v2.py \
+--input_type image_tensor \
+--pipeline_config_path training/pipeline.config \
+--trained_checkpoint_dir training/ \
+--output_directory exported-model
+```
 
-1. Cloned TensorFlow Model Zoo  
-2. Selected SSD MobileNet v2 configuration  
-3. Modified `pipeline.config`  
-4. Generated label map (`.pbtxt`)  
-5. Converted dataset to TFRecord  
-6. Trained model  
-7. Exported trained model for inference  
+---
+
+## ▶️ Run Real-Time Detection
+
+```bash
+python MainCode.ipynb
+```
+
+OR open notebook and run all cells.
+
+Webcam will activate and display:
+
+- Bounding box  
+- Predicted ASL character  
+- Confidence score  
 
 ---
 
@@ -132,98 +216,8 @@ This script:
 | Final Loss | 0.086 |
 | Real-Time Accuracy | 96% – 99% |
 | Detection Output | Bounding Box + Confidence Score |
-| Input Device | Webcam |
 
 The system successfully performs real-time gesture detection with high confidence prediction scores.
-
----
-
-## 🛠️ Technologies Used
-
-### 🔹 Programming
-- Python 3.x  
-
-### 🔹 Computer Vision
-- OpenCV  
-- NumPy  
-- Pillow  
-
-### 🔹 Deep Learning
-- TensorFlow  
-- TensorFlow Object Detection API  
-- SSD MobileNet v2  
-- Transfer Learning  
-- TFRecord format  
-- Label Map (`.pbtxt`)  
-
-### 🔹 Data Processing
-- Pandas  
-- XML parsing (ElementTree)  
-- TFRecord serialization  
-
----
-
-## ▶️ Steps to Reproduce
-
-### 1️⃣ Clone Repository
-
-```bash
-git clone https://github.com/yourusername/ASLVizNet.git
-cd ASLVizNet
-```
-
-### 2️⃣ Install Dependencies
-
-```bash
-pip install tensorflow opencv-python pandas numpy pillow lxml
-```
-
-Install TensorFlow Object Detection API dependencies.
-
----
-
-### 3️⃣ Annotate Dataset
-
-- Capture gesture images  
-- Annotate using LabelImg  
-- Save XML files in `/annotations`  
-
----
-
-### 4️⃣ Generate TFRecords
-
-```bash
-python generate_tfrecord.py \
--x annotations \
--l label_map.pbtxt \
--o train.record \
--i images
-```
-
----
-
-### 5️⃣ Train Model
-
-```bash
-python model_main_tf2.py \
---pipeline_config_path=training/pipeline.config \
---model_dir=training/ \
---alsologtostderr
-```
-
----
-
-### 6️⃣ Run Real-Time Detection
-
-```bash
-python real_time_detection.py
-```
-
-Webcam will activate and display:
-
-- Bounding box  
-- Predicted ASL character  
-- Confidence score  
 
 ---
 
@@ -240,16 +234,30 @@ Published in:
 > “Sign Language Recognition using Convolutional Neural Networks in Machine Learning”, IJARCS, Vol. 12, pp. 16–20, Aug. 2021.  
 > DOI: 10.26483/ijarcs.v12i0.6713  
 
+---
 
+
+---
 
 ## 🎓 Skills Demonstrated
 
 - Computer Vision  
 - Deep Learning  
-- TensorFlow Ecosystem  
+- TensorFlow Object Detection API  
 - Transfer Learning  
 - Dataset Engineering  
 - TFRecord Pipeline Development  
 - Real-Time ML Deployment  
 - Research Publication & Presentation  
 
+---
+
+## ⚠️ Note on Large Files
+
+Model checkpoints and dataset files are not included in the repository due to GitHub size limits. Please use the provided dataset link and training instructions to reproduce results.
+
+---
+
+## 👩‍💻 Author
+
+Developed as a research-driven computer vision framework integrating deep learning and real-time detection for assistive communication systems.
