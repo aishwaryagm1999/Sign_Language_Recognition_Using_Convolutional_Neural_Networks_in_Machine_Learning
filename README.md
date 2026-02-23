@@ -1,36 +1,39 @@
-ASLVizNet
-Real-Time American Sign Language Recognition using CNN & TensorFlow Object Detection API
-📌 Overview
+# ASLVizNet  
+### Real-Time American Sign Language Recognition using CNN & TensorFlow Object Detection API
 
-ASLVizNet is a real-time computer vision framework designed for recognizing static American Sign Language (ASL) alphabets and numbers using deep convolutional neural networks and transfer learning.
+---
 
-The system leverages the TensorFlow Object Detection API and SSD MobileNet v2 to perform bounding box localization and classification of hand gestures from live webcam input.
+## 📌 Overview
 
-ASLVizNet was developed as a research-driven project and presented at the IACIT 2021 Conference, with publication in IJARCS (International Journal of Advanced Research in Computer Science).
+**ASLVizNet** is a real-time computer vision framework designed for recognizing static American Sign Language (ASL) alphabets and numbers using deep convolutional neural networks and transfer learning.
 
-🎯 Problem Statement
+The system leverages the **TensorFlow Object Detection API** and **SSD MobileNet v2** to perform bounding box localization and classification of hand gestures from live webcam input.
+
+ASLVizNet was developed as a research-driven project and presented at the **IACIT 2021 Conference**, with publication in **IJARCS (International Journal of Advanced Research in Computer Science)**.
+
+---
+
+## 🎯 Problem Statement
 
 Traditional sign language translation systems:
 
-Depend on expensive sensor gloves
-
-Require specialized hardware
-
-Lack real-time responsiveness
-
-Provide limited accessibility
+- Depend on expensive sensor gloves  
+- Require specialized hardware  
+- Lack real-time responsiveness  
+- Provide limited accessibility  
 
 ASLVizNet proposes a low-cost, vision-based deep learning approach that:
 
-Uses only a webcam
+- Uses only a webcam  
+- Performs real-time detection  
+- Achieves high accuracy (96–99%)  
+- Requires no wearable devices  
 
-Performs real-time detection
+---
 
-Achieves high accuracy (96–99%)
+## 🏗️ System Architecture
 
-Requires no wearable devices
-
-🏗️ System Architecture
+```text
 Webcam Input (OpenCV)
         ↓
 Image Annotation (LabelImg - XML)
@@ -42,208 +45,211 @@ TensorFlow Object Detection API
 SSD MobileNet v2 (Transfer Learning)
         ↓
 Real-Time Detection with Bounding Box + Confidence Score
-🧠 Deep Learning Methodology
-🔹 Model Architecture
+```
 
-Model: SSD MobileNet v2
+---
 
-Framework: TensorFlow Object Detection API
+## 🧠 Deep Learning Methodology
 
-Approach: Transfer Learning
+### 🔹 Model Architecture
 
-Detection Type: Object Detection (Bounding Box + Classification)
+- **Model:** SSD MobileNet v2  
+- **Framework:** TensorFlow Object Detection API  
+- **Approach:** Transfer Learning  
+- **Detection Type:** Object Detection (Bounding Box + Classification)  
 
-🔹 Why SSD MobileNet v2?
+### 🔹 Why SSD MobileNet v2?
 
-Lightweight architecture
+- Lightweight architecture  
+- Optimized for real-time inference  
+- Efficient for low-compute environments  
+- Strong balance between speed and accuracy  
 
-Optimized for real-time inference
+---
 
-Efficient for low-compute environments
+## 📂 Dataset Pipeline
 
-Strong balance between speed and accuracy
+### 1️⃣ Data Collection
 
-📂 Dataset Pipeline
-1️⃣ Data Collection
+- Custom ASL gesture dataset created  
+- Static alphabets (A–Z)  
+- Numbers (0–9)  
+- Images captured using OpenCV  
 
-Custom ASL gesture dataset created
+### 2️⃣ Annotation
 
-Static alphabets (A–Z)
+- Tool: LabelImg  
+- Generated XML annotation files  
+- Bounding box coordinates labeled per image  
 
-Numbers (0–9)
-
-Images captured using OpenCV
-
-2️⃣ Annotation
-
-Tool: LabelImg
-
-Generated XML annotation files
-
-Bounding box coordinates labeled per image
-
-3️⃣ TFRecord Generation
+### 3️⃣ TFRecord Generation
 
 Used custom script:
 
-generate_tfrecord.py
+`generate_tfrecord.py`
 
 This script:
 
-Parses XML files
+- Parses XML files  
+- Converts annotations to TFRecord format  
+- Maps labels using `.pbtxt`  
+- Optionally generates CSV file  
 
-Converts annotations to TFRecord format
+---
 
-Maps labels using .pbtxt
+## 🔬 Model Training
 
-Optionally generates CSV file
+### Training Configuration
 
-🔬 Model Training
-Training Configuration
+- **Framework:** TensorFlow  
+- **Training Steps:** 10,000 epochs  
+- **Final Training Loss:** 0.086  
 
-Framework: TensorFlow
+### Hardware Used
 
-Training Steps: 10,000 epochs
+- Intel i5 Processor  
+- 8GB RAM  
+- GTX 1030 (Optional GPU Acceleration)  
+- Webcam for live testing  
 
-Final Training Loss: 0.086
+### Training Process
 
-Hardware Used
+1. Cloned TensorFlow Model Zoo  
+2. Selected SSD MobileNet v2 configuration  
+3. Modified `pipeline.config`  
+4. Generated label map (`.pbtxt`)  
+5. Converted dataset to TFRecord  
+6. Trained model  
+7. Exported trained model for inference  
 
-Intel i5 Processor
+---
 
-8GB RAM
+## 📊 Experimental Results
 
-GTX 1030 (Optional GPU Acceleration)
-
-Webcam for live testing
-
-Training Process
-
-Cloned TensorFlow Model Zoo
-
-Selected SSD MobileNet v2 configuration
-
-Modified pipeline.config
-
-Generated label map (.pbtxt)
-
-Converted dataset to TFRecord
-
-Trained model
-
-Exported trained model for inference
-
-📊 Experimental Results
-Metric	Value
-Training Epochs	10,000
-Final Loss	0.086
-Real-Time Accuracy	96% – 99%
-Detection Output	Bounding Box + Confidence Score
-Input Device	Webcam
+| Metric | Value |
+|--------|--------|
+| Training Epochs | 10,000 |
+| Final Loss | 0.086 |
+| Real-Time Accuracy | 96% – 99% |
+| Detection Output | Bounding Box + Confidence Score |
+| Input Device | Webcam |
 
 The system successfully performs real-time gesture detection with high confidence prediction scores.
 
-🛠️ Technologies Used
-🔹 Programming
+---
 
-Python 3.x
+## 🛠️ Technologies Used
 
-🔹 Computer Vision
+### 🔹 Programming
+- Python 3.x  
 
-OpenCV
+### 🔹 Computer Vision
+- OpenCV  
+- NumPy  
+- Pillow  
 
-NumPy
+### 🔹 Deep Learning
+- TensorFlow  
+- TensorFlow Object Detection API  
+- SSD MobileNet v2  
+- Transfer Learning  
+- TFRecord format  
+- Label Map (`.pbtxt`)  
 
-Pillow
+### 🔹 Data Processing
+- Pandas  
+- XML parsing (ElementTree)  
+- TFRecord serialization  
 
-🔹 Deep Learning
+---
 
-TensorFlow
+## ▶️ Steps to Reproduce
 
-TensorFlow Object Detection API
+### 1️⃣ Clone Repository
 
-SSD MobileNet v2
-
-Transfer Learning
-
-TFRecord format
-
-Label Map (.pbtxt)
-
-🔹 Data Processing
-
-Pandas
-
-XML parsing (ElementTree)
-
-TFRecord serialization
-
-▶️ Steps to Reproduce
-1️⃣ Clone Repository
+```bash
 git clone https://github.com/yourusername/ASLVizNet.git
 cd ASLVizNet
-2️⃣ Install Dependencies
+```
+
+### 2️⃣ Install Dependencies
+
+```bash
 pip install tensorflow opencv-python pandas numpy pillow lxml
+```
 
 Install TensorFlow Object Detection API dependencies.
 
-3️⃣ Annotate Dataset
+---
 
-Capture gesture images
+### 3️⃣ Annotate Dataset
 
-Annotate using LabelImg
+- Capture gesture images  
+- Annotate using LabelImg  
+- Save XML files in `/annotations`  
 
-Save XML files in /annotations
+---
 
-4️⃣ Generate TFRecords
+### 4️⃣ Generate TFRecords
+
+```bash
 python generate_tfrecord.py \
 -x annotations \
 -l label_map.pbtxt \
 -o train.record \
 -i images
-5️⃣ Train Model
+```
+
+---
+
+### 5️⃣ Train Model
+
+```bash
 python model_main_tf2.py \
 --pipeline_config_path=training/pipeline.config \
 --model_dir=training/ \
 --alsologtostderr
-6️⃣ Run Real-Time Detection
+```
+
+---
+
+### 6️⃣ Run Real-Time Detection
+
+```bash
 python real_time_detection.py
+```
 
 Webcam will activate and display:
 
-Bounding box
+- Bounding box  
+- Predicted ASL character  
+- Confidence score  
 
-Predicted ASL character
+---
 
-Confidence score
-
-📚 Research Publication
+## 📚 Research Publication
 
 Presented at:
 
-IACIT 2021 Conference
+**IACIT 2021 Conference**
 
 Published in:
 
-International Journal of Advanced Research in Computer Science (IJARCS)
+**International Journal of Advanced Research in Computer Science (IJARCS)**  
 
-“Sign Language Recognition using Convolutional Neural Networks in Machine Learning”, IJARCS, Vol. 12, pp. 16–20, Aug. 2021.
-DOI: 10.26483/ijarcs.v12i0.6713
+> “Sign Language Recognition using Convolutional Neural Networks in Machine Learning”, IJARCS, Vol. 12, pp. 16–20, Aug. 2021.  
+> DOI: 10.26483/ijarcs.v12i0.6713  
 
-🎓 Skills Demonstrated
 
-Computer Vision
 
-Deep Learning
+## 🎓 Skills Demonstrated
 
-TensorFlow Ecosystem
+- Computer Vision  
+- Deep Learning  
+- TensorFlow Ecosystem  
+- Transfer Learning  
+- Dataset Engineering  
+- TFRecord Pipeline Development  
+- Real-Time ML Deployment  
+- Research Publication & Presentation  
 
-Transfer Learning
-
-Dataset Engineering
-
-TFRecord Pipeline Development
-
-Real-Time ML Deployment
-
-Research Publication & Presentation
